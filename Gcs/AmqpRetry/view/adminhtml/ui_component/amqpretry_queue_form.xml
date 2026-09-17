@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">amqpretry_queue_form.amqp_retry_queue_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Queue Retry Configuration</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save" class="Gcs\AmqpRetry\Block\Adminhtml\Queue\Edit\SaveButton"/>
+        </buttons>
+        <namespace>amqpretry_queue_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>amqpretry_queue_form.amqp_retry_queue_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="amqp_retry_queue_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="amqpretry/queue/save"/>
+        </settings>
+        <dataProvider class="Gcs\AmqpRetry\Ui\DataProvider\QueueDataProvider" name="amqp_retry_queue_form_data_source">
+            <settings>
+                <requestFieldName>config_id</requestFieldName>
+                <primaryFieldName>config_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="queue_identity" sortOrder="10">
+        <settings>
+            <label translate="true">Queue Fields</label>
+        </settings>
+        <field name="queue_name" formElement="select" sortOrder="10">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Queue Name</label>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Gcs\AmqpRetry\Model\Source\QueueName"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="exchange_name" formElement="input" sortOrder="20">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Exchange Name</label>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="is_enabled" formElement="select" sortOrder="30">
+            <settings>
+                <dataType>int</dataType>
+                <label translate="true">Is Enabled</label>
+                <dataScope>is_enabled</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Config\Model\Config\Source\Yesno"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="initial_intervals" formElement="textarea" sortOrder="40">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Initial Intervals</label>
+                <notice translate="true">e.g. 60,300,900</notice>
+                <validation>
+                    <rule name="validate-numbers-and-commas" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="dlq_intervals" formElement="textarea" sortOrder="50">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">DLQ Intervals</label>
+                <notice translate="true">e.g. 3600,86400</notice>
+            </settings>
+        </field>
+        <field name="topology_applied_at" formElement="input" sortOrder="60">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Topology Applied At</label>
+                <elementTmpl>ui/form/element/text</elementTmpl>
+                <disabled>true</disabled>
+            </settings>
+        </field>
+        <field name="apply_topology" formElement="checkbox" sortOrder="70">
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Apply Topology On Save</label>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="boolean">false</map>
+                            <map name="true" xsi:type="boolean">true</map>
+                        </valueMap>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+    </fieldset>
+</form>

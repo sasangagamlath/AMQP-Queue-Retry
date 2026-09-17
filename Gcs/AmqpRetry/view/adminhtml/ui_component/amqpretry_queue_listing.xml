@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">amqpretry_queue_listing.amqp_retry_queue_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="*/*/new"/>
+                <class>primary</class>
+                <label translate="true">Add New Retry Configuration</label>
+            </button>
+        </buttons>
+        <spinner>amqp_retry_queue_columns</spinner>
+        <deps>
+            <dep>amqpretry_queue_listing.amqp_retry_queue_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="amqp_retry_queue_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">config_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Gcs_AmqpRetry::config</aclResource>
+        <dataProvider class="Gcs\AmqpRetry\Ui\DataProvider\QueueListingDataProvider"
+                      name="amqp_retry_queue_listing_data_source">
+            <settings>
+                <requestFieldName>config_id</requestFieldName>
+                <primaryFieldName>config_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <filterSearch name="fulltext">
+            <settings>
+                <chipsProvider>amqpretry_queue_listing.listing_top.listing_filters_chips</chipsProvider>
+            </settings>
+        </filterSearch>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="amqpretry/queue/massDelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete Items</item>
+                            <item name="message" xsi:type="string" translate="true">
+                                Are you sure you want to delete selected items?
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+    </listingToolbar>
+    <columns name="amqp_retry_queue_columns">
+        <selectionsColumn name="ids" sortOrder="5">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="indexField" xsi:type="string">config_id</item>
+            </item>
+        </argument>
+        </selectionsColumn>
+        <column name="config_id" sortOrder="10">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">ID</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+        <column name="queue_name" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Queue Name</label>
+            </settings>
+        </column>
+        <column name="exchange_name" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Exchange Name</label>
+            </settings>
+        </column>
+        <column name="is_enabled" component="Magento_Ui/js/grid/columns/select" sortOrder="40">
+            <settings>
+                <options class="Magento\Config\Model\Config\Source\Yesno"/>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <label translate="true">Is Enabled</label>
+            </settings>
+        </column>
+        <column name="initial_intervals" sortOrder="50">
+            <settings>
+                <label translate="true">Initial Intervals</label>
+            </settings>
+        </column>
+        <column name="dlq_intervals" sortOrder="60">
+            <settings>
+                <label translate="true">DLQ Intervals</label>
+            </settings>
+        </column>
+        <column name="topology_applied_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="70">
+            <settings>
+                <filter>dateRange</filter>
+                <label translate="true">Topology Applied At</label>
+                <fieldClass>
+                    <class name="topology_applied_at">true</class>
+                </fieldClass>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Gcs\AmqpRetry\Ui\Component\Listing\Column\Actions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Gcs_AmqpRetry/js/grid/columns/amqpretry-actions</item>
+                    <item name="indexField" xsi:type="string">config_id</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

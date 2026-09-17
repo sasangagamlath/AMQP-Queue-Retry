@@ -1,0 +1,25 @@
+{
+    "name": "gcs/module-amqp-retry",
+    "description": "Adobe Commerce / Magento 2 module providing configurable, automatic retry handling for failed AMQP message queue consumers using RabbitMQ TTL + Dead Letter Exchange wait queues.",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "version": "1.0.0",
+    "require": {
+        "php": "~8.3.0||~8.4.0",
+        "magento/framework": "*",
+        "magento/module-backend": "*",
+        "magento/module-config": "*",
+        "magento/module-ui": "*",
+        "magento/module-message-queue": "*",
+        "magento/module-amqp": "*",
+        "php-amqplib/php-amqplib": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Gcs\\AmqpRetry\\": ""
+        }
+    }
+}

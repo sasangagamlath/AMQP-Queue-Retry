@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Backend/etc/menu.xsd">
+    <menu>
+        <add id="Gcs_AmqpRetry::menu" title="AMQP Retry" module="Gcs_AmqpRetry" parent="Magento_Backend::system" sortOrder="99" resource="Gcs_AmqpRetry::menu"/>
+        <add id="Gcs_AmqpRetry::config" title="Queue Retry Configurations" module="Gcs_AmqpRetry" parent="Gcs_AmqpRetry::menu" sortOrder="10" action="adminhtml/system_config/edit/section/amqpretry" resource="Gcs_AmqpRetry::config"/>
+        <add id="Gcs_AmqpRetry::queue_grid" title="Queue Retry Grid" module="Gcs_AmqpRetry" parent="Gcs_AmqpRetry::menu" sortOrder="11" action="amqpretry/queue/index" resource="Gcs_AmqpRetry::config"/>
+    </menu>
+</config>

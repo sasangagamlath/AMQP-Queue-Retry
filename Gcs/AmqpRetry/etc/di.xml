@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Gcs\AmqpRetry\Api\QueueConfigRepositoryInterface" type="Gcs\AmqpRetry\Model\QueueConfigRepository"/>
+    <preference for="Gcs\AmqpRetry\Api\Data\QueueConfigInterface" type="Gcs\AmqpRetry\Model\QueueConfig"/>
+
+    <type name="Magento\Framework\Amqp\Queue">
+        <plugin name="amqp_retry_reject" type="Gcs\AmqpRetry\Plugin\QueueRejectPlugin" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="amqp_retry_apply" xsi:type="object">Gcs\AmqpRetry\Console\Command\ApplyTopologyCommand</item>
+                <item name="amqp_retry_delete" xsi:type="object">Gcs\AmqpRetry\Console\Command\DeleteTopologyCommand</item>
+                <item name="amqp_retry_list" xsi:type="object">Gcs\AmqpRetry\Console\Command\ListQueuesCommand</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Gcs\AmqpRetry\Logger\Handler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/gcs-amqpretry.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Gcs\AmqpRetry\Logger\Logger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">Gcs\AmqpRetry\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+</config>

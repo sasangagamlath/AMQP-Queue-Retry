@@ -1,0 +1,19 @@
+{
+    "amqp_retry_queue_config": {
+        "column": {
+            "config_id": true,
+            "queue_name": true,
+            "exchange_name": true,
+            "is_enabled": true,
+            "initial_intervals": true,
+            "dlq_intervals": true,
+            "topology_applied_at": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "AMQP_RETRY_QUEUE_CONFIG_QUEUE_NAME": true,
+            "PRIMARY": true
+        }
+    }
+}
